@@ -1,4 +1,4 @@
-# Student Information Management System (SIS)
+# Student Information Management System (SIMS)
 
 A simple and maintainable **Django + PostgreSQL** application for managing academic records, including students, courses, subjects, faculty assignments, enrollments, examinations, grading, and performance reporting.
 
