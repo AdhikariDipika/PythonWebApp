@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="header-box">
+    <h1>Examination Management</h1>
+    <a href="{% url 'exam_add' %}" class="btn">+ Create Exam</a>
+</div>
+<table>
+    <tr><th>ID</th><th>Exam Name</th><th>Subject</th><th>Date</th><th>Actions</th></tr>
+    {% for e in exams %}
+    <tr>
+        <td>{{ e.exam_id }}</td>
+        <td>{{ e.exam_name }}</td>
+        <td>{{ e.subject.subject_name }}</td>
+        <td>{{ e.exam_date }}</td>
+        <td>
+            <a href="{% url 'exam_edit' e.exam_id %}" class="btn">Edit</a>
+            <a href="{% url 'exam_delete' e.exam_id %}" class="btn btn-danger">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

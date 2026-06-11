@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="header-box">
+    <h1>{% if form.instance.pk %}Update Record{% else %}Add New Record{% endif %}</h1>
+</div>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div style="margin-top: 20px;">
+        <button type="submit" class="btn">Save Changes</button>
+        <a href="../" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="header-box">
+    <h1>Result Sheets</h1>
+    <a href="{% url 'result_add' %}" class="btn">+ Entry Grade</a>
+</div>
+<table>
+    <tr><th>ID</th><th>Student</th><th>Exam</th><th>Marks</th><th>Grade</th><th>GPA Point</th><th>Actions</th></tr>
+    {% for r in results %}
+    <tr>
+        <td>{{ r.result_id }}</td>
+        <td>{{ r.student.name }}</td>
+        <td>{{ r.exam.exam_name }}</td>
+        <td>{{ r.marks }}</td>
+        <td><strong>{{ r.grade }}</strong></td>
+        <td>{{ r.grade_point }}</td>
+        <td>
+            <a href="{% url 'result_edit' r.result_id %}" class="btn">Edit</a>
+            <a href="{% url 'result_delete' r.result_id %}" class="btn btn-danger">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

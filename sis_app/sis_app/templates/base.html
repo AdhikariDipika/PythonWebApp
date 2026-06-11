@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Information Management System</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'dashboard' %}" class="brand">SIMS Application</a>
+        <a href="{% url 'student_list' %}">Students</a>
+        <a href="{% url 'course_list' %}">Courses</a>
+        <a href="{% url 'faculty_list' %}">Faculty</a>
+        <a href="{% url 'subject_list' %}">Subjects</a>
+        <a href="{% url 'enrollment_list' %}">Enrollments</a>
+        <a href="{% url 'exam_list' %}">Exams</a>
+        <a href="{% url 'result_list' %}">Results</a>
+    </div>
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="header-box">
+    <h1>Course Management</h1>
+    <a href="{% url 'course_add' %}" class="btn">+ Add Course</a>
+</div>
+<table>
+    <tr><th>Course ID</th><th>Course Name</th><th>Actions</th></tr>
+    {% for c in courses %}
+    <tr>
+        <td>{{ c.course_id }}</td>
+        <td>{{ c.course_name }}</td>
+        <td>
+            <a href="{% url 'course_edit' c.course_id %}" class="btn">Edit</a>
+            <a href="{% url 'course_delete' c.course_id %}" class="btn btn-danger">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

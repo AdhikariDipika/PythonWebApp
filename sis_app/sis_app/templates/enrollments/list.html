@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="header-box">
+    <h1>Enrollment Management</h1>
+    <a href="{% url 'enrollment_add' %}" class="btn">+ New Enrollment</a>
+</div>
+<table>
+    <tr><th>ID</th><th>Student Name</th><th>Enrolled Course</th><th>Enrollment Date</th><th>Actions</th></tr>
+    {% for e in enrollments %}
+    <tr>
+        <td>{{ e.enrollment_id }}</td>
+        <td>{{ e.student.name }}</td>
+        <td>{{ e.course.course_name }}</td>
+        <td>{{ e.enrollment_date }}</td>
+        <td>
+            <a href="{% url 'enrollment_edit' e.enrollment_id %}" class="btn">Edit</a>
+            <a href="{% url 'enrollment_delete' e.enrollment_id %}" class="btn btn-danger">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

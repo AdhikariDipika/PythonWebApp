@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="header-box">
+    <h1>Delete Confirmation</h1>
+</div>
+<div style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+    <p>Are you sure you want to permanently delete <strong>{{ object }}</strong>?</p>
+    <form method="POST" style="padding:0; box-shadow:none; background:none;">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger"> Yes, Confirm Delete</button>
+        <a href="../" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

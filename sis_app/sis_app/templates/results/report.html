@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="header-box">
+    <h1>Academic Transcript Report Card</h1>
+    <button class="btn" onclick="window.print()">Print Transcript</button>
+</div>
+
+<div style="background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 30px;">
+    <h3>Student Profile</h3>
+    <p><strong>Full Name:</strong> {{ student.name }}</p>
+    <p><strong>Email Address:</strong> {{ student.email }}</p>
+    <p><strong>Phone:</strong> {{ student.phone }}</p>
+    <p><strong>Registered Courses:</strong> 
+        {% for e in enrollments %}{{ e.course.course_name }}{% if not forloop.last %}, {% endif %}{% empty %}No Courses Registered{% endfor %}
+    </p>
+</div>
+
+<h3>Grading Performance Records</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Subject Code</th>
+            <th>Exam Reference Name</th>
+            <th>Marks Earned</th>
+            <th>Letter Grade</th>
+            <th>Grade Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in results %}
+        <tr>
+            <td>{{ r.exam.subject.subject_name }}</td>
+            <td>{{ r.exam.exam_name }}</td>
+            <td>{{ r.marks }}</td>
+            <td><strong>{{ r.grade }}</strong></td>
+            <td>{{ r.grade_point }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" style="text-align: center; color: #7f8c8d;">No exams recorded for this student yet.</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<div style="margin-top: 30px; display: flex; gap: 40px; background: #e2e8f0; padding: 20px; border-radius: 8px; font-size: 18px;">
+    <div><strong>Calculated Cumulative GPA:</strong> <span style="color:#2980b9; font-weight:bold;">{{ gpa }}</span></div>
+    <div><strong>Final Status Verdict:</strong> 
+        {% if status == 'PASS' %}
+            <span class="badge badge-pass">PASSED</span>
+        {% else %}
+            <span class="badge badge-fail">FAILED</span>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

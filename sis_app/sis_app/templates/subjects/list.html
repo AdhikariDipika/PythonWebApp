@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="header-box">
+    <h1>Subject Management</h1>
+    <a href="{% url 'subject_add' %}" class="btn">+ Add Subject</a>
+</div>
+<table>
+    <tr><th>ID</th><th>Subject Name</th><th>Course</th><th>Assigned Faculty</th><th>Actions</th></tr>
+    {% for s in subjects %}
+    <tr>
+        <td>{{ s.subject_id }}</td>
+        <td>{{ s.subject_name }}</td>
+        <td>{{ s.course.course_name }}</td>
+        <td>{{ s.faculty.faculty_name }}</td>
+        <td>
+            <a href="{% url 'subject_edit' s.subject_id %}" class="btn">Edit</a>
+            <a href="{% url 'subject_delete' s.subject_id %}" class="btn btn-danger">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
