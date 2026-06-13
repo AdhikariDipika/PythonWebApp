@@ -38,13 +38,16 @@ class Subject(models.Model):
 
 class Enrollment(models.Model):
     enrollment_id = models.AutoField(primary_key=True)
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    
+    student = models.OneToOneField(Student, on_delete=models.CASCADE)
+    
+    # 2. ForeignKey remains here.
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    
     enrollment_date = models.DateField(auto_now_add=True)
 
-    class Meta:
-        # Constraint: One student cannot enroll in the same course twice
-        unique_together = ('student', 'course')
+    # Note: We completely removed the "class Meta: unique_together" block 
+    # because OneToOneField automatically makes the student unique!
 
     def __str__(self):
         return f"{self.student.name} - {self.course.course_name}"
