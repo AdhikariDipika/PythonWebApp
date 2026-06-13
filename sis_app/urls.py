@@ -41,10 +41,13 @@ urlpatterns = [
     path('exams/delete/<int:id>/', views.exam_delete, name='exam_delete'),
 
     # Results
-    path('results/', views.result_list, name='result_list'),
+path('results/', views.result_list, name='result_list'),
     path('results/add/', views.result_add, name='result_add'),
     path('results/edit/<int:id>/', views.result_edit, name='result_edit'),
     path('results/delete/<int:id>/', views.result_delete, name='result_delete'),
+    
+    # Clean Transcript Route (Removed the duplicate student_result_detail path)
+    path('results/transcript/<int:student_id>/', views.student_transcript, name='student_transcript'),
     
     # Report
     path('results/report/<int:student_id>/', views.student_report, name='student_report'),

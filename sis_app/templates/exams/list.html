@@ -1,22 +1,46 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<div class="header-box">
-    <h1>Examination Management</h1>
-    <a href="{% url 'exam_add' %}" class="btn">+ Create Exam</a>
+<div class="dashboard-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h1>Scheduled Examinations</h1>
+
+        <a href="{% url 'exam_add' %}" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.9rem; border-radius: 6px;">
+            + Add Exam
+        </a>
+    </div>
 </div>
-<table>
-    <tr><th>ID</th><th>Exam Name</th><th>Subject</th><th>Date</th><th>Actions</th></tr>
-    {% for e in exams %}
-    <tr>
-        <td>{{ e.exam_id }}</td>
-        <td>{{ e.exam_name }}</td>
-        <td>{{ e.subject.subject_name }}</td>
-        <td>{{ e.exam_date }}</td>
-        <td>
-            <a href="{% url 'exam_edit' e.exam_id %}" class="btn">Edit</a>
-            <a href="{% url 'exam_delete' e.exam_id %}" class="btn btn-danger">Delete</a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+
+<div class="table-wrapper">
+    <table class="minimal-table">
+        <thead>
+            <tr>
+                <th style="width: 35%;">Exam Label</th>
+                <th style="width: 30%;">Associated Subject</th>
+                <th style="width: 15%; text-align: center;">Semester</th>
+                <th style="width: 20%; text-align: right;">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for exam in exams %}
+            <tr>
+                <td>
+                    <span style="font-weight: 500; color: var(--text-primary);">{{ exam.exam_name }}</span>
+                </td>
+                <td style="color: var(--text-muted);">{{ exam.subject.subject_name }}</td>
+                <td style="text-align: center;">
+                    <span class="semester-badge">Term {{ exam.semester }}</span>
+                </td>
+                <td style="text-align: right; color: var(--text-muted);">{{ exam.exam_date|date:"M d, Y" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 40px;">
+                    No examination blocks have been organized or mapped to the calendar.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

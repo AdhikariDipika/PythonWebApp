@@ -15,7 +15,10 @@ def dashboard(request):
     }
     return render(request, 'dashboard.html', context)
 
-# ----------------- STUDENT CRUD -----------------
+
+# ==========================================================================
+# 1. STUDENT CRUD
+# ==========================================================================
 def student_list(request):
     students = Student.objects.all()
     return render(request, 'students/list.html', {'students': students})
@@ -48,7 +51,10 @@ def student_delete(request, id):
         return redirect('student_list')
     return render(request, 'students/delete.html', {'obj': student, 'cancel_url': 'student_list'})
 
-# ----------------- COURSE CRUD -----------------
+
+# ==========================================================================
+# 2. COURSE CRUD
+# ==========================================================================
 def course_list(request):
     courses = Course.objects.all()
     return render(request, 'courses/list.html', {'courses': courses})
@@ -75,7 +81,10 @@ def course_delete(request, id):
         return redirect('course_list')
     return render(request, 'courses/delete.html', {'obj': course, 'cancel_url': 'course_list'})
 
-# ----------------- FACULTY CRUD -----------------
+
+# ==========================================================================
+# 3. FACULTY CRUD
+# ==========================================================================
 def faculty_list(request):
     return render(request, 'faculty/list.html', {'faculty': Faculty.objects.all()})
 
@@ -101,7 +110,10 @@ def faculty_delete(request, id):
         return redirect('faculty_list')
     return render(request, 'faculty/delete.html', {'obj': faculty, 'cancel_url': 'faculty_list'})
 
-# ----------------- SUBJECT CRUD -----------------
+
+# ==========================================================================
+# 4. SUBJECT CRUD
+# ==========================================================================
 def subject_list(request):
     return render(request, 'subjects/list.html', {'subjects': Subject.objects.all()})
 
@@ -127,7 +139,10 @@ def subject_delete(request, id):
         return redirect('subject_list')
     return render(request, 'subjects/delete.html', {'obj': subject, 'cancel_url': 'subject_list'})
 
-# ----------------- ENROLLMENT CRUD -----------------
+
+# ==========================================================================
+# 5. ENROLLMENT CRUD
+# ==========================================================================
 def enrollment_list(request):
     return render(request, 'enrollments/list.html', {'enrollments': Enrollment.objects.all()})
 
@@ -153,7 +168,10 @@ def enrollment_delete(request, id):
         return redirect('enrollment_list')
     return render(request, 'enrollments/delete.html', {'obj': enrollment, 'cancel_url': 'enrollment_list'})
 
-# ----------------- EXAM CRUD -----------------
+
+# ==========================================================================
+# 6. EXAM CRUD
+# ==========================================================================
 def exam_list(request):
     return render(request, 'exams/list.html', {'exams': Exam.objects.all()})
 
@@ -179,9 +197,26 @@ def exam_delete(request, id):
         return redirect('exam_list')
     return render(request, 'exams/delete.html', {'obj': exam, 'cancel_url': 'exam_list'})
 
-# ----------------- RESULT CRUD -----------------
+
+# ==========================================================================
+# 7. PERFORMANCE LEDGER & TRANSCRIPT LOGIC
+# ==========================================================================
 def result_list(request):
-    return render(request, 'results/list.html', {'results': Result.objects.all()})
+    # CHANGED: Queries Students instead of raw Result rows to display CGPA aggregates
+    students = Student.objects.all()
+    return render(request, 'results/list.html', {'students': students})
+
+def student_transcript(request, student_id):
+    # 1. Use 'pk' (Primary Key) instead of 'id' to bypass custom column names
+    student = get_object_or_404(Student, pk=student_id)
+    
+    # 2. Query the Result model directly to avoid related_name attribute errors
+    detailed_results = Result.objects.filter(student=student).select_related('exam__subject').order_by('exam__semester', 'exam__subject__subject_name')
+    
+    return render(request, 'results/transcript.html', {
+        'student': student,
+        'detailed_results': detailed_results
+    })
 
 def result_add(request):
     form = ResultForm(request.POST or None)
@@ -211,7 +246,10 @@ def result_delete(request, id):
         return redirect('result_list')
     return render(request, 'results/delete.html', {'obj': result, 'cancel_url': 'result_list'})
 
-# ----------------- REPORT VIEW -----------------
+
+# ==========================================================================
+# 8. LEGACY REPORT VIEWS (Optional/Retained)
+# ==========================================================================
 def student_report(request, student_id):
     student = get_object_or_404(Student, pk=student_id)
     enrollments = Enrollment.objects.filter(student=student)

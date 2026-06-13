@@ -1,24 +1,57 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<div class="header-box">
-    <h1>Result Sheets</h1>
-    <a href="{% url 'result_add' %}" class="btn">+ Entry Grade</a>
+<div class="dashboard-header">
+    <div>
+        <h1>Academic Performance Ledger</h1>
+        <a href="{% url 'result_add' %}" class="btn btn-primary" style="padding: 8px 16px; font-size: 0.9rem; border-radius: 6px; display: inline-flex; align-items: center;">
+            + Add Result Marks
+        </a>
+    </div>
 </div>
-<table>
-    <tr><th>ID</th><th>Student</th><th>Exam</th><th>Marks</th><th>Grade</th><th>GPA Point</th><th>Actions</th></tr>
-    {% for r in results %}
-    <tr>
-        <td>{{ r.result_id }}</td>
-        <td>{{ r.student.name }}</td>
-        <td>{{ r.exam.exam_name }}</td>
-        <td>{{ r.marks }}</td>
-        <td><strong>{{ r.grade }}</strong></td>
-        <td>{{ r.grade_point }}</td>
-        <td>
-            <a href="{% url 'result_edit' r.result_id %}" class="btn">Edit</a>
-            <a href="{% url 'result_delete' r.result_id %}" class="btn btn-danger">Delete</a>
-        </td>
-    </tr>
-    {% endfor %}
-</table>
+
+<div class="table-wrapper">
+    <table class="minimal-table">
+        <thead>
+            <tr>
+                <th style="width: 10%; text-align: center;">ID</th>
+                <th style="width: 50%;">Student Name</th>
+                <th style="width: 15%; text-align: center;">CGPA</th>
+                <th style="width: 10%; text-align: center;">Final Grade</th>
+                <th style="width: 15%; text-align: right;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td style="text-align: center; color: var(--text-muted); font-weight: 500;">
+                    {{ student.pk }}
+                </td>
+                <td>
+                    <span style="font-weight: 500; color: var(--text-primary);">{{ student.name }}</span>
+                </td>
+                <td style="text-align: center; font-weight: 600;">
+                    <span class="cgpa-pill {% if student.cgpa >= 3.5 %}cgpa-high{% endif %}">
+                        {{ student.cgpa }}
+                    </span>
+                </td>
+                <td style="text-align: center; font-weight: 700; color: var(--primary-accent);">
+                    {{ student.overall_grade }}
+                </td>
+                <td style="text-align: right;">
+                    <a href="{% url 'student_transcript' student.pk %}" class="btn btn-primary" style="padding: 6px 16px; font-size: 0.85rem; border-radius: 6px;">
+                        Transcript
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 40px;">
+                    No student records or grade reports found in the system database.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
