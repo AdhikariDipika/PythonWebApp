@@ -8,16 +8,27 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+<!-- Top-level Navigation layer -->
     <div class="navbar">
-        <a href="{% url 'dashboard' %}" class="brand">SIMS Application</a>
-        <a href="{% url 'student_list' %}">Students</a>
-        <a href="{% url 'course_list' %}">Courses</a>
-        <a href="{% url 'faculty_list' %}">Faculty</a>
-        <a href="{% url 'subject_list' %}">Subjects</a>
-        <a href="{% url 'enrollment_list' %}">Enrollments</a>
-        <a href="{% url 'exam_list' %}">Exams</a>
-        <a href="{% url 'result_list' %}">Results</a>
+        <a href="{% url 'dashboard' %}" class="brand">SIMS</a>
+        
+        <a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a>
+        
+        <a href="{% url 'student_list' %}" class="{% if 'student' in request.resolver_match.url_name %}active{% endif %}">Students</a>
+        
+        <a href="{% url 'course_list' %}" class="{% if 'course' in request.resolver_match.url_name %}active{% endif %}">Courses</a>
+        
+        <a href="{% url 'faculty_list' %}" class="{% if 'faculty' in request.resolver_match.url_name %}active{% endif %}">Faculty</a>
+        
+        <a href="{% url 'subject_list' %}" class="{% if 'subject' in request.resolver_match.url_name %}active{% endif %}">Subjects</a>
+        
+        <a href="{% url 'enrollment_list' %}" class="{% if 'enrollment' in request.resolver_match.url_name %}active{% endif %}">Enrollments</a>
+        
+        <a href="{% url 'exam_list' %}" class="{% if 'exam' in request.resolver_match.url_name %}active{% endif %}">Exams</a>
+        
+        <a href="{% url 'result_list' %}" class="{% if 'result' in request.resolver_match.url_name %}active{% endif %}">Results</a>
     </div>
+
     <div class="container">
         {% block content %}{% endblock %}
     </div>
